@@ -5,6 +5,7 @@ import { ShipmentStatus } from "@prisma/client";
 import { toast } from "sonner";
 
 import { updateShipmentStatusAction } from "@/actions/shipment/update-status";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -25,7 +26,7 @@ export default function UpdateStatusCard({
 
   const [isPending, startTransition] = useTransition();
 
-  async function handleUpdate() {
+  function handleUpdate() {
     startTransition(async () => {
       const result = await updateShipmentStatusAction(
         shipmentId,
@@ -34,16 +35,21 @@ export default function UpdateStatusCard({
         description
       );
 
-      if (result.success) {
-        toast.success("Shipment updated successfully.");
-      } else {
-        toast.error("Failed to update shipment.");
-      }
+      if (!result.success) {
+  toast.error(
+    "message" in result
+      ? result.message
+      : "Failed to update shipment."
+  );
+  return;
+}
+
+      toast.success("Shipment updated successfully.");
     });
   }
 
   return (
-    <div className="rounded-xl border bg-white p-6 space-y-5">
+    <div className="space-y-5 rounded-xl border bg-white p-6">
       <h2 className="text-xl font-semibold">
         Update Shipment Status
       </h2>

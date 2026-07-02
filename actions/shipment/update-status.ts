@@ -3,7 +3,7 @@
 import { ShipmentStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
-import { updateShipmentStatus } from "@/services/shipment/updateShipmentStatus";
+import { updateShipment } from "@/services/shipment/updateShipment";
 
 export async function updateShipmentStatusAction(
   shipmentId: string,
@@ -11,24 +11,21 @@ export async function updateShipmentStatusAction(
   location: string,
   description: string
 ) {
-  try {
-    await updateShipmentStatus({
-      shipmentId,
-      status,
-      location,
-      description,
-    });
+  const result = await updateShipment(shipmentId, {
+    status,
+    currentLocation: location,
+    description,
+  });
 
-    revalidatePath(`/dashboard/shipments/${shipmentId}`);
-
-    return {
-      success: true,
-    };
-  } catch (error) {
-    console.error(error);
-
-    return {
-      success: false,
-    };
+  if (!result.success) {
+    return result;
   }
+
+  revalidatePath("/dashboard");
+  revalidatePath("/dashboard/shipments");
+  revalidatePath(`/dashboard/shipments/${shipmentId}`);
+
+  return {
+    success: true,
+  };
 }

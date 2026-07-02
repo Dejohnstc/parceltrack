@@ -57,9 +57,34 @@ export default function TrackingTimeline({
 
             const current = index === currentIndex;
 
+            const upcoming = index > currentIndex;
+
             const event = events.find(
               (e) => e.status === status
             );
+
+            const description = event
+              ? event.description
+              : completed
+              ? "Shipment successfully completed this stage."
+              : current
+              ? "Shipment is currently at this stage."
+              : "Waiting for shipment to reach this stage.";
+
+            const location = event
+              ? event.location
+              : completed
+              ? "Completed"
+              : "--";
+
+            const date = event
+              ? new Intl.DateTimeFormat("en-US", {
+                  dateStyle: "medium",
+                  timeStyle: "short",
+                }).format(new Date(event.createdAt))
+              : completed
+              ? "Completed"
+              : "--";
 
             return (
               <div
@@ -74,17 +99,23 @@ export default function TrackingTimeline({
                   )}
 
                   {current && (
-                    <div className="flex h-7 w-7 items-center justify-center rounded-full bg-orange-500">
+                    <div className="flex h-7 w-7 items-center justify-center rounded-full bg-orange-500 ring-4 ring-orange-100">
                       <div className="h-3 w-3 rounded-full bg-white" />
                     </div>
                   )}
 
-                  {!completed && !current && (
+                  {upcoming && (
                     <Circle className="h-7 w-7 text-slate-300" />
                   )}
 
                   {index < journey.length - 1 && (
-                    <div className="mt-2 h-24 w-[2px] bg-slate-200" />
+                    <div
+                      className={`mt-2 h-24 w-[2px] ${
+                        completed
+                          ? "bg-green-500"
+                          : "bg-slate-200"
+                      }`}
+                    />
                   )}
                 </div>
 
@@ -100,7 +131,7 @@ export default function TrackingTimeline({
                       <div className="mt-2 flex items-center gap-2 text-sm text-slate-500">
                         <MapPin className="h-4 w-4" />
 
-                        {event?.location ?? "--"}
+                        {location}
                       </div>
                     </div>
 
@@ -121,23 +152,12 @@ export default function TrackingTimeline({
                     </div>
                   </div>
 
-                  <p className="mt-4 text-slate-600">
-                    {event?.description ??
-                      "Waiting for shipment to reach this stage."}
+                  <p className="mt-4 leading-7 text-slate-600">
+                    {description}
                   </p>
 
                   <div className="mt-5 border-t pt-4 text-sm text-slate-400">
-                    {event
-                      ? new Intl.DateTimeFormat(
-                          "en-US",
-                          {
-                            dateStyle: "medium",
-                            timeStyle: "short",
-                          }
-                        ).format(
-                          new Date(event.createdAt)
-                        )
-                      : "--"}
+                    {date}
                   </div>
                 </div>
               </div>
