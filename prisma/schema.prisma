@@ -1,0 +1,132 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  STAFF
+  CUSTOMER
+}
+
+enum ShipmentStatus {
+  PENDING
+  CREATED
+  PICKED_UP
+  ORIGIN_FACILITY
+  IN_TRANSIT
+  ARRIVED_HUB
+  CUSTOMS
+  OUT_FOR_DELIVERY
+  DELIVERED
+  DELAYED
+  FAILED
+  RETURNED
+}
+
+model User {
+  id                   String   @id @default(auto()) @map("_id") @db.ObjectId
+
+  name                 String
+  email                String   @unique
+  password             String
+  image                String?
+
+  role                 Role     @default(CUSTOMER)
+
+  emailVerified        Boolean  @default(false)
+
+  verificationToken    String?
+  resetPasswordToken   String?
+  resetPasswordExpires DateTime?
+
+  shipments            Shipment[]
+
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}
+model Shipment {
+  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+  customerId String? @db.ObjectId
+customer   User?   @relation(fields: [customerId], references: [id])
+
+  trackingNumber     String   @unique
+
+  // Sender
+  senderName         String
+  senderEmail        String
+  senderPhone        String?
+  senderAddress      String?
+
+  // Receiver
+  receiverName       String
+  receiverEmail      String
+  receiverPhone      String?
+  receiverAddress    String?
+
+  // Route
+  origin             String
+  destination        String
+  currentLocation    String
+
+  // Package
+  service            String?
+  packageType        String?
+  packageDescription String?
+  weight             Float?
+  pieces             Int?
+
+  expectedDelivery   DateTime?
+
+  status             ShipmentStatus
+
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  trackingEvents     TrackingEvent[]
+}
+model TrackingEvent {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+
+  shipmentId    String   @db.ObjectId
+
+  shipment      Shipment @relation(fields: [shipmentId], references: [id])
+
+  status        ShipmentStatus
+
+  location      String
+
+  description   String
+
+  createdAt     DateTime @default(now())
+}
+
+model ActivityLog {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+
+  userId      String?  @db.ObjectId
+  shipmentId  String?  @db.ObjectId
+
+  action      String
+  description String
+
+  createdAt   DateTime @default(now())
+}
+model CompanySettings {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  companyName String
+  supportEmail String
+  supportPhone String
+
+  logo String?
+
+  primaryColor String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
