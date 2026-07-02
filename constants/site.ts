@@ -1,7 +1,7 @@
 export const SITE = {
   name: "ParcelTrack",
   description: "Professional parcel tracking and logistics platform.",
-  url: "http://localhost:3000",
+  url: "https://parceltrack-git-main-dejohnstcs-projects.vercel.app/",
 
   links: {
     facebook: "#",

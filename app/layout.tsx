@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.APP_URL ?? "http://localhost:3000"
+    process.env.APP_URL ?? "https://parceltrack-git-main-dejohnstcs-projects.vercel.app/"
   ),
 
   title: {
