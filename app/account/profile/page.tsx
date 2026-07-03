@@ -64,25 +64,32 @@ export default async function ProfilePage() {
 
           <div className="flex-1">
 
-            <h1 className="text-4xl font-bold">
-              {user.name}
-            </h1>
+            <p className="text-sm uppercase tracking-[0.25em] text-orange-100">
+  Customer Portal
+</p>
 
-            <p className="mt-2 text-orange-100">
-              {user.email}
-            </p>
+<h1 className="mt-2 text-4xl font-bold">
+  {user.name}
+</h1>
 
-            <div className="mt-6 flex flex-wrap gap-3">
+<p className="mt-2 text-orange-100">
+  {user.email}
+</p>
 
-              <span className="rounded-full bg-white/20 px-4 py-2 text-sm backdrop-blur">
-                Customer
-              </span>
+<p className="mt-4 max-w-xl text-orange-100">
+  Manage your shipments, monitor delivery progress,
+  and securely access your ParcelTrakker account.
+</p>
 
-              <span className="rounded-full bg-green-500/30 px-4 py-2 text-sm">
-                Verified Account
-              </span>
+<div className="mt-6 flex flex-wrap gap-3">
+  <span className="rounded-full bg-white/20 px-4 py-2 text-sm backdrop-blur">
+    {user.role}
+  </span>
 
-            </div>
+  <span className="rounded-full bg-green-500/30 px-4 py-2 text-sm">
+    Verified Account
+  </span>
+</div>
 
           </div>
 
@@ -96,7 +103,7 @@ export default async function ProfilePage() {
 
         {/* Personal */}
 
-        <div className="rounded-3xl bg-white p-8 shadow-lg">
+        <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
 
           <h2 className="mb-8 text-2xl font-bold">
             Personal Information
@@ -189,71 +196,65 @@ export default async function ProfilePage() {
 
         {/* Shipment Statistics */}
 
-        <div className="rounded-3xl bg-white p-8 shadow-lg">
+        <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
 
-          <h2 className="mb-8 text-2xl font-bold">
-            Shipment Statistics
-          </h2>
+  <h2 className="mb-8 text-2xl font-bold">
+    Shipment Statistics
+  </h2>
 
-          <div className="space-y-6">
+  <div className="grid gap-5 sm:grid-cols-3">
 
-            <div className="flex items-center justify-between rounded-2xl bg-slate-50 p-5">
+    <div className="rounded-2xl bg-orange-50 p-6 text-center">
 
-              <div className="flex items-center gap-4">
+      <Package className="mx-auto mb-4 h-10 w-10 text-orange-500" />
 
-                <Package className="text-orange-500" />
+      <p className="text-sm text-slate-500">
+        Total Shipments
+      </p>
 
-                <span>Total Shipments</span>
+      <h3 className="mt-2 text-4xl font-bold">
+        {totalShipments}
+      </h3>
 
-              </div>
+    </div>
 
-              <span className="text-2xl font-bold">
-                {totalShipments}
-              </span>
+    <div className="rounded-2xl bg-blue-50 p-6 text-center">
 
-            </div>
+      <Truck className="mx-auto mb-4 h-10 w-10 text-blue-500" />
 
-            <div className="flex items-center justify-between rounded-2xl bg-slate-50 p-5">
+      <p className="text-sm text-slate-500">
+        In Transit
+      </p>
 
-              <div className="flex items-center gap-4">
+      <h3 className="mt-2 text-4xl font-bold">
+        {inTransit}
+      </h3>
 
-                <Truck className="text-blue-500" />
+    </div>
 
-                <span>In Transit</span>
+    <div className="rounded-2xl bg-green-50 p-6 text-center">
 
-              </div>
+      <CheckCircle className="mx-auto mb-4 h-10 w-10 text-green-500" />
 
-              <span className="text-2xl font-bold">
-                {inTransit}
-              </span>
+      <p className="text-sm text-slate-500">
+        Delivered
+      </p>
 
-            </div>
+      <h3 className="mt-2 text-4xl font-bold">
+        {delivered}
+      </h3>
 
-            <div className="flex items-center justify-between rounded-2xl bg-slate-50 p-5">
+    </div>
 
-              <div className="flex items-center gap-4">
+  </div>
 
-                <CheckCircle className="text-green-500" />
-
-                <span>Delivered</span>
-
-              </div>
-
-              <span className="text-2xl font-bold">
-                {delivered}
-              </span>
-
-            </div>
-
-          </div>
-
-        </div>
+</div>
 
       </div>
 
       {/* Security */}
 
-      <div className="rounded-3xl bg-white p-8 shadow-lg">
+      <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
 
         <h2 className="text-2xl font-bold">
           Account Security
@@ -266,46 +267,38 @@ export default async function ProfilePage() {
 
         <div className="mt-8 grid gap-6 md:grid-cols-3">
 
-          <div className="rounded-2xl border p-6">
+  <div className="rounded-2xl border border-green-200 bg-green-50 p-6">
+    <h3 className="font-semibold">
+      Email Verification
+    </h3>
 
-            <h3 className="font-semibold">
-              Email Verification
-            </h3>
+    <p className="mt-2 font-medium text-green-700">
+      Verified ✓
+    </p>
+  </div>
 
-            <p className="mt-2 text-green-600">
-              Verified
-            </p>
+  <div className="rounded-2xl border border-blue-200 bg-blue-50 p-6">
+    <h3 className="font-semibold">
+      Password
+    </h3>
 
-          </div>
+    <p className="mt-2 font-medium text-blue-700">
+      Protected
+    </p>
+  </div>
 
-          <div className="rounded-2xl border p-6">
+  <div className="rounded-2xl border border-orange-200 bg-orange-50 p-6">
+    <h3 className="font-semibold">
+      Session
+    </h3>
 
-            <h3 className="font-semibold">
-              Password
-            </h3>
+    <p className="mt-2 font-medium text-orange-700">
+      Active
+    </p>
+  </div>
 
-            <p className="mt-2 text-slate-500">
-              Protected
-            </p>
-
-          </div>
-
-          <div className="rounded-2xl border p-6">
-
-            <h3 className="font-semibold">
-              Session
-            </h3>
-
-            <p className="mt-2 text-slate-500">
-              Active
-            </p>
-
-          </div>
-
-        </div>
-
-      </div>
-
+</div>
+</div>
     </div>
   );
 }
