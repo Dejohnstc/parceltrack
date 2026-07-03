@@ -3,13 +3,12 @@ import { getSessionCookie } from "@/lib/cookies";
 import { verifyJWT } from "@/lib/jwt";
 
 export async function getCurrentUser() {
- const token = await getSessionCookie();
+  const token = await getSessionCookie();
 
+  if (!token) {
+    return null;
+  }
 
-
-if (!token) {
-  return null;
-}
   try {
     const payload = await verifyJWT(token);
 
@@ -26,6 +25,8 @@ if (!token) {
         name: true,
         email: true,
         role: true,
+        createdAt: true,
+        emailVerified: true,
       },
     });
 
