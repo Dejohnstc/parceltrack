@@ -1,23 +1,24 @@
 import type { ReactNode } from "react";
-import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
-import DashboardHeader from "@/components/dashboard/DashboardHeader";
 
-export default function DashboardLayout({
+import { getCurrentUser } from "@/lib/auth";
+
+import DashboardShell from "@/components/dashboard/DashboardShell";
+
+export default async function DashboardLayout({
   children,
 }: {
   children: ReactNode;
 }) {
+  const user = await getCurrentUser();
+
   return (
-    <div className="flex min-h-screen bg-slate-100">
-      <DashboardSidebar />
-
-      <div className="flex flex-1 flex-col">
-        <DashboardHeader />
-
-        <main className="flex-1 p-6">
-          {children}
-        </main>
-      </div>
-    </div>
+    <DashboardShell
+      user={{
+        name: user?.name ?? "Administrator",
+        email: user?.email ?? "",
+      }}
+    >
+      {children}
+    </DashboardShell>
   );
 }

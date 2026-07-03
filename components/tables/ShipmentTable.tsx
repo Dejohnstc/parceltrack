@@ -63,28 +63,168 @@ export default function ShipmentTable({
   shipments,
 }: ShipmentTableProps) {
   return (
-    <div className="overflow-hidden rounded-2xl border bg-white shadow-sm">
+    <div className="overflow-hidden rounded-3xl border bg-white shadow-lg">
+      {/* Header */}
+
       <div className="border-b p-6">
-        <h2 className="text-xl font-semibold">
+        <h2 className="text-2xl font-bold">
           Recent Shipments
         </h2>
 
-        <p className="mt-1 text-sm text-slate-500">
+        <p className="mt-1 text-slate-500">
           View, edit and manage parcel movement.
         </p>
       </div>
 
-      <div className="overflow-x-auto">
+      {/* Mobile */}
+
+      <div className="space-y-4 p-4 lg:hidden">
+        {shipments.length === 0 ? (
+          <div className="py-16 text-center">
+            <MapPin className="mx-auto mb-4 h-12 w-12 text-slate-300" />
+
+            <h3 className="text-lg font-semibold">
+              No Shipments Found
+            </h3>
+
+            <p className="mt-2 text-slate-500">
+              Create your first shipment.
+            </p>
+          </div>
+        ) : (
+          shipments.map((shipment) => (
+            <div
+              key={shipment.id}
+              className="rounded-2xl border bg-white p-5 shadow-sm"
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <h3 className="text-lg font-bold">
+                    {shipment.trackingNumber}
+                  </h3>
+
+                  <p className="mt-1 text-sm text-slate-500">
+                    {shipment.senderName}
+                  </p>
+                </div>
+
+                <span
+                  className={`rounded-full px-3 py-1 text-xs font-semibold ${getStatusColor(
+                    shipment.status
+                  )}`}
+                >
+                  {shipment.status.replaceAll(
+                    "_",
+                    " "
+                  )}
+                </span>
+              </div>
+
+              <div className="mt-5 space-y-3 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-slate-500">
+                    Receiver
+                  </span>
+
+                  <span className="font-medium">
+                    {shipment.receiverName}
+                  </span>
+                </div>
+
+                <div className="flex justify-between">
+                  <span className="text-slate-500">
+                    Current
+                  </span>
+
+                  <span className="font-medium">
+                    {shipment.currentLocation}
+                  </span>
+                </div>
+
+                <div className="flex justify-between">
+                  <span className="text-slate-500">
+                    Destination
+                  </span>
+
+                  <span className="font-medium">
+                    {shipment.destination}
+                  </span>
+                </div>
+              </div>
+
+              <div className="mt-6 flex gap-2">
+                <Button
+                  className="flex-1"
+                  size="sm"
+                  variant="outline"
+                  asChild
+                >
+                  <Link
+                    href={`/dashboard/shipments/${shipment.id}`}
+                  >
+                    <Eye className="mr-2 h-4 w-4" />
+                    View
+                  </Link>
+                </Button>
+
+                <Button
+                  className="flex-1"
+                  size="sm"
+                  variant="outline"
+                  asChild
+                >
+                  <Link
+                    href={`/dashboard/shipments/${shipment.id}/edit`}
+                  >
+                    <Pencil className="mr-2 h-4 w-4" />
+                    Edit
+                  </Link>
+                </Button>
+              </div>
+
+              <div className="mt-3">
+                <DeleteShipmentDialog
+                  shipmentId={shipment.id}
+                />
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* Desktop */}
+
+      <div className="hidden overflow-x-auto lg:block">
         <table className="min-w-full">
           <thead className="bg-slate-50">
             <tr>
-              <th className="p-4 text-left">Tracking</th>
-              <th className="p-4 text-left">Sender</th>
-              <th className="p-4 text-left">Receiver</th>
-              <th className="p-4 text-left">Current Location</th>
-              <th className="p-4 text-left">Destination</th>
-              <th className="p-4 text-left">Status</th>
-              <th className="p-4 text-right">Actions</th>
+              <th className="p-4 text-left">
+                Tracking
+              </th>
+
+              <th className="p-4 text-left">
+                Sender
+              </th>
+
+              <th className="p-4 text-left">
+                Receiver
+              </th>
+
+              <th className="p-4 text-left">
+                Current Location
+              </th>
+
+              <th className="p-4 text-left">
+                Destination
+              </th>
+
+              <th className="p-4 text-left">
+                Status
+              </th>
+
+              <th className="p-4 text-right">
+                Actions
+              </th>
             </tr>
           </thead>
 
@@ -103,8 +243,8 @@ export default function ShipmentTable({
                     </h3>
 
                     <p className="mt-2 text-slate-500">
-                      Create your first shipment to get
-                      started.
+                      Create your first shipment to
+                      get started.
                     </p>
                   </div>
                 </td>
