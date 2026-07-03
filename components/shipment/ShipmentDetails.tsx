@@ -23,18 +23,34 @@ export default function ShipmentDetails({
   }
 
   return (
-    <div className="grid gap-8 lg:grid-cols-3">
-      <div className="lg:col-span-2">
-        <ShipmentInfo shipment={shipment} />
-      </div>
+    <>
+      {/* Mobile Update Card */}
 
-      <div className="sticky top-6 h-fit">
+      <div className="mb-6 lg:hidden">
         <UpdateStatusCard
           shipmentId={shipment.id}
           currentStatus={shipment.status}
           currentLocation={shipment.currentLocation}
         />
       </div>
-    </div>
+
+      {/* Desktop Layout */}
+
+      <div className="grid gap-8 lg:grid-cols-3">
+        <div className="order-2 lg:order-1 lg:col-span-2">
+          <ShipmentInfo shipment={shipment} />
+        </div>
+
+        <div className="order-1 hidden lg:block">
+          <div className="sticky top-6">
+            <UpdateStatusCard
+              shipmentId={shipment.id}
+              currentStatus={shipment.status}
+              currentLocation={shipment.currentLocation}
+            />
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
