@@ -1,10 +1,9 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
 
-import { Button } from "@/components/ui/button";
+import ShipmentsContent from "@/components/account/shipments/ShipmentContent";
 
 export default async function CustomerShipmentsPage() {
   const user = await getCurrentUser();
@@ -13,7 +12,6 @@ export default async function CustomerShipmentsPage() {
     redirect("/login");
   }
 
-  // Prevent admins from using customer pages
   if (user.role !== "CUSTOMER") {
     redirect("/dashboard");
   }
@@ -22,7 +20,6 @@ export default async function CustomerShipmentsPage() {
     where: {
       customerId: user.id,
     },
-
     orderBy: {
       createdAt: "desc",
     },
@@ -30,102 +27,40 @@ export default async function CustomerShipmentsPage() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold">
-          My Shipments
-        </h1>
+      {/* Hero */}
 
-        <p className="mt-2 text-slate-500">
-          View all shipments assigned to your account.
-        </p>
+      <div className="rounded-3xl bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 p-8 text-white shadow-xl">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <p className="text-sm uppercase tracking-[0.25em] text-orange-100">
+              Customer Portal
+            </p>
+
+            <h1 className="mt-3 text-4xl font-bold">
+              My Shipments
+            </h1>
+
+            <p className="mt-3 text-orange-100">
+              View, search and track every shipment
+              assigned to your account.
+            </p>
+          </div>
+
+          <div className="rounded-3xl bg-white/10 p-6 text-center backdrop-blur">
+            <p className="text-sm text-orange-100">
+              Total Shipments
+            </p>
+
+            <h2 className="mt-2 text-5xl font-bold">
+              {shipments.length}
+            </h2>
+          </div>
+        </div>
       </div>
 
-      <div className="overflow-hidden rounded-2xl border bg-white shadow-sm">
-        <table className="min-w-full">
-          <thead className="bg-slate-50">
-            <tr>
-              <th className="p-4 text-left">
-                Tracking Number
-              </th>
+      {/* Search • Filter • Table • Mobile Cards */}
 
-              <th className="p-4 text-left">
-                Origin
-              </th>
-
-              <th className="p-4 text-left">
-                Destination
-              </th>
-
-              <th className="p-4 text-left">
-                Current Location
-              </th>
-
-              <th className="p-4 text-left">
-                Status
-              </th>
-
-              <th className="p-4 text-right">
-                Action
-              </th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {shipments.length === 0 ? (
-              <tr>
-                <td
-                  colSpan={6}
-                  className="py-16 text-center text-slate-500"
-                >
-                  No shipments found.
-                </td>
-              </tr>
-            ) : (
-              shipments.map((shipment) => (
-                <tr
-                  key={shipment.id}
-                  className="border-t hover:bg-slate-50"
-                >
-                  <td className="p-4 font-semibold">
-                    {shipment.trackingNumber}
-                  </td>
-
-                  <td className="p-4">
-                    {shipment.origin}
-                  </td>
-
-                  <td className="p-4">
-                    {shipment.destination}
-                  </td>
-
-                  <td className="p-4">
-                    {shipment.currentLocation}
-                  </td>
-
-                  <td className="p-4">
-                    <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700">
-                      {shipment.status.replaceAll(
-                        "_",
-                        " "
-                      )}
-                    </span>
-                  </td>
-
-                  <td className="p-4 text-right">
-                    <Button asChild size="sm">
-                      <Link
-                        href={`/track/${shipment.trackingNumber}`}
-                      >
-                        Track
-                      </Link>
-                    </Button>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
+      <ShipmentsContent shipments={shipments} />
     </div>
   );
 }
