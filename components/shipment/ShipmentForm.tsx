@@ -78,24 +78,34 @@ export default function ShipmentForm({
     });
   }
 
-  return (
-    <form
-      onSubmit={form.handleSubmit(onSubmit)}
-      className="space-y-8"
-    >
+return (
+  <form
+    onSubmit={form.handleSubmit(onSubmit)}
+    className="space-y-8"
+  >
+    <div className="rounded-3xl bg-white p-6 shadow-lg md:p-8">
       <SenderSection form={form} />
+    </div>
 
+    <div className="rounded-3xl bg-white p-6 shadow-lg md:p-8">
       <ReceiverSection form={form} />
+    </div>
 
+    <div className="rounded-3xl bg-white p-6 shadow-lg md:p-8">
       <ShipmentSection form={form} />
+    </div>
 
+    <div className="rounded-3xl bg-white p-6 shadow-lg md:p-8">
       <PackageSection form={form} />
+    </div>
 
+    <div className="rounded-3xl bg-white p-6 shadow-lg md:p-8">
       <StatusSection
         form={form}
         isPending={isPending}
         mode={mode}
       />
-    </form>
-  );
+    </div>
+  </form>
+);
 }

@@ -2,7 +2,18 @@
 
 import { useRouter } from "next/navigation";
 import { UseFormReturn } from "react-hook-form";
-import { ShipmentStatus } from "@prisma/client";
+import {
+  ShipmentStatus,
+} from "@prisma/client";
+
+import {
+  Save,
+  X,
+  Truck,
+  Calendar,
+  MapPin,
+  FileText,
+} from "lucide-react";
 
 import { ShipmentInput } from "@/lib/validations/shipment";
 
@@ -37,56 +48,104 @@ export default function StatusSection({
 }: StatusSectionProps) {
   const router = useRouter();
 
-  // CREATE MODE
+  /* ---------------- CREATE ---------------- */
+
   if (mode === "create") {
     return (
-      <div className="mt-8 flex justify-end gap-4">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => router.back()}
-        >
-          Cancel
-        </Button>
+      <section className="rounded-3xl border border-slate-200 bg-white p-8 shadow-lg">
 
-        <Button
-          type="submit"
-          disabled={isPending}
-        >
-          {isPending
-            ? "Creating Shipment..."
-            : "Create Shipment"}
-        </Button>
-      </div>
+        <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+
+          <div>
+
+            <h2 className="text-2xl font-bold">
+              Ready to Create Shipment
+            </h2>
+
+            <p className="mt-2 text-slate-500">
+              Review the shipment information before
+              generating the tracking number.
+            </p>
+
+          </div>
+
+          <div className="flex flex-col gap-3 sm:flex-row">
+
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => router.back()}
+              className="h-12 rounded-xl"
+            >
+              <X className="mr-2 h-5 w-5" />
+              Cancel
+            </Button>
+
+            <Button
+              type="submit"
+              disabled={isPending}
+              className="h-12 rounded-xl bg-orange-500 px-8 hover:bg-orange-600"
+            >
+              <Save className="mr-2 h-5 w-5" />
+
+              {isPending
+                ? "Creating Shipment..."
+                : "Create Shipment"}
+            </Button>
+
+          </div>
+
+        </div>
+
+      </section>
     );
   }
 
-  // EDIT MODE
-  return (
-    <section className="rounded-2xl border bg-white p-6 shadow-sm">
-      <div className="mb-6">
-        <h2 className="text-2xl font-semibold">
-          Shipment Status
-        </h2>
+  /* ---------------- EDIT ---------------- */
 
-        <p className="mt-1 text-slate-500">
-          Update the shipment progress and tracking
-          information.
-        </p>
+  return (
+    <section className="rounded-3xl border border-slate-200 bg-white p-8 shadow-lg">
+
+      <div className="mb-8 flex items-center gap-4">
+
+        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-orange-100">
+
+          <Truck className="h-7 w-7 text-orange-500" />
+
+        </div>
+
+        <div>
+
+          <h2 className="text-2xl font-bold">
+            Shipment Status
+          </h2>
+
+          <p className="mt-1 text-slate-500">
+            Update shipment progress and tracking
+            information.
+          </p>
+
+        </div>
+
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
 
         {/* Status */}
 
-        <div>
-          <label className="mb-2 block text-sm font-medium">
+        <div className="space-y-2">
+
+          <label className="flex items-center gap-2 text-sm font-semibold">
+
+            <Truck className="h-4 w-4 text-orange-500" />
+
             Shipment Status
+
           </label>
 
           <select
             {...form.register("status")}
-            className="w-full rounded-xl border bg-white p-3 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
+            className="h-12 w-full rounded-xl border bg-white px-4 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
           >
             {statuses.map((status) => (
               <option
@@ -97,74 +156,100 @@ export default function StatusSection({
               </option>
             ))}
           </select>
+
         </div>
 
-        {/* Expected Delivery */}
+        {/* Delivery */}
 
-        <div>
-          <label className="mb-2 block text-sm font-medium">
+        <div className="space-y-2">
+
+          <label className="flex items-center gap-2 text-sm font-semibold">
+
+            <Calendar className="h-4 w-4 text-orange-500" />
+
             Expected Delivery
+
           </label>
 
           <Input
             type="date"
+            className="h-12 rounded-xl"
             {...form.register("expectedDelivery", {
               valueAsDate: true,
             })}
-            className="focus:ring-2 focus:ring-orange-200"
           />
+
         </div>
 
         {/* Current Location */}
 
-        <div className="md:col-span-2">
-          <label className="mb-2 block text-sm font-medium">
+        <div className="space-y-2 md:col-span-2">
+
+          <label className="flex items-center gap-2 text-sm font-semibold">
+
+            <MapPin className="h-4 w-4 text-orange-500" />
+
             Current Location
+
           </label>
 
           <Input
-            {...form.register("currentLocation")}
+            className="h-12 rounded-xl"
             placeholder="Current shipment location..."
+            {...form.register("currentLocation")}
           />
+
         </div>
 
-        {/* Tracking Description */}
+        {/* Description */}
 
-        <div className="md:col-span-2">
-          <label className="mb-2 block text-sm font-medium">
+        <div className="space-y-2 md:col-span-2">
+
+          <label className="flex items-center gap-2 text-sm font-semibold">
+
+            <FileText className="h-4 w-4 text-orange-500" />
+
             Tracking Description
+
           </label>
 
           <textarea
-            {...form.register("description")}
-            rows={4}
+            rows={5}
             placeholder="Describe the latest shipment update..."
-            className="w-full rounded-xl border p-3 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
+            className="w-full rounded-xl border p-4 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
+            {...form.register("description")}
           />
+
         </div>
 
       </div>
 
-      <div className="mt-8 flex justify-end gap-4">
+      <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:justify-end">
 
         <Button
           type="button"
           variant="outline"
           onClick={() => router.back()}
+          className="h-12 rounded-xl"
         >
+          <X className="mr-2 h-5 w-5" />
           Cancel
         </Button>
 
         <Button
           type="submit"
           disabled={isPending}
+          className="h-12 rounded-xl bg-orange-500 px-8 hover:bg-orange-600"
         >
+          <Save className="mr-2 h-5 w-5" />
+
           {isPending
             ? "Updating Shipment..."
             : "Update Shipment"}
         </Button>
 
       </div>
+
     </section>
   );
 }
