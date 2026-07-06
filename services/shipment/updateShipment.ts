@@ -12,7 +12,7 @@ export async function updateShipment(
   await requireAdmin();
 
   const parsed = updateShipmentSchema.safeParse(data);
-
+console.log("PARSED:", parsed);
   if (!parsed.success) {
     return {
       success: false,
@@ -22,6 +22,7 @@ export async function updateShipment(
   }
 
   const shipment = await prisma.shipment.findUnique({
+    
     where: {
       id,
     },
@@ -33,7 +34,7 @@ export async function updateShipment(
       message: "Shipment not found.",
     };
   }
-
+console.log("SHIPMENT FOUND:", shipment);
   const {
     status,
     currentLocation,
@@ -75,7 +76,7 @@ export async function updateShipment(
       description,
     },
   });
-
+console.log("TRACKING EVENT CREATED");
   // Activity log
   await prisma.activityLog.create({
     data: {
@@ -97,20 +98,18 @@ export async function updateShipment(
   description,
 });
 
-  const updatedShipment =
-    await prisma.shipment.findUnique({
-      where: {
-        id,
-      },
-      include: {
-        trackingEvents: {
-          orderBy: {
-            createdAt: "desc",
-          },
-        },
-      },
-    });
+  const updatedShipment = await prisma.shipment.update({
+  where: {
+    id,
+  },
+  data: {
+    status,
+    currentLocation,
+    expectedDelivery,
+  },
+});
 
+console.log("UPDATED SHIPMENT:", updatedShipment);
   return {
     success: true,
     message: "Shipment updated successfully.",
