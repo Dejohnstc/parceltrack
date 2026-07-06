@@ -25,22 +25,41 @@ export default function UpdateStatusCard({
   const [description, setDescription] = useState("");
 
   const [isPending, startTransition] = useTransition();
+const statusDescriptions: Record<ShipmentStatus, string> = {
+  PENDING: "Shipment has been created and is awaiting processing.",
+  CREATED: "Shipment has been successfully created.",
+  PICKED_UP: "Shipment has been picked up from the sender.",
+  ORIGIN_FACILITY: "Shipment has arrived at the origin facility.",
+  IN_TRANSIT: "Shipment is currently in transit to its destination.",
+  ARRIVED_HUB: "Shipment has arrived at the regional distribution hub.",
+  CUSTOMS: "Shipment is currently undergoing customs clearance.",
+  OUT_FOR_DELIVERY: "Shipment is out for delivery.",
+  DELIVERED: "Shipment has been delivered successfully.",
+  DELAYED: "Shipment has been delayed due to operational reasons.",
+  FAILED: "Delivery attempt was unsuccessful.",
+  RETURNED: "Shipment is being returned to the sender.",
+};
 
   function handleUpdate() {
     startTransition(async () => {
-      const result = await updateShipmentStatusAction(
-        shipmentId,
-        status,
-        location,
-        description
-      );
+     const result = await updateShipmentStatusAction(
+  shipmentId,
+  status,
+  location,
+  description.trim() ||
+    `Shipment status updated to ${status.replaceAll("_", " ")}.`
+);
 
-      if (!result.success) {
-  toast.error(
-    "message" in result
+   if (!result.success) {
+  const message =
+    "errors" in result &&
+    result.errors?.fieldErrors?.description?.[0]
+      ? result.errors.fieldErrors.description[0]
+      : "message" in result
       ? result.message
-      : "Failed to update shipment."
-  );
+      : "Failed to update shipment.";
+
+  toast.error(message);
   return;
 }
 
@@ -62,9 +81,15 @@ export default function UpdateStatusCard({
         <select
           className="w-full rounded-md border px-3 py-2"
           value={status}
-          onChange={(e) =>
-            setStatus(e.target.value as ShipmentStatus)
-          }
+          onChange={(e) => {
+  const newStatus = e.target.value as ShipmentStatus;
+
+  setStatus(newStatus);
+
+  if (!description.trim()) {
+    setDescription(statusDescriptions[newStatus]);
+  }
+}}
         >
           {Object.values(ShipmentStatus).map((item) => (
             <option
@@ -84,10 +109,14 @@ export default function UpdateStatusCard({
       />
 
       <Input
-        placeholder="Update Description"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-      />
+  placeholder="Tracking update..."
+  value={description}
+  onChange={(e) => setDescription(e.target.value)}
+/>
+
+<p className="text-xs text-slate-500">
+  This message will appear in the customer&apos;s tracking timeline and email.
+</p>
 
       <Button
         onClick={handleUpdate}

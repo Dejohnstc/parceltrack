@@ -12,7 +12,7 @@ export async function updateShipment(
   await requireAdmin();
 
   const parsed = updateShipmentSchema.safeParse(data);
-console.log("PARSED:", parsed);
+
   if (!parsed.success) {
     return {
       success: false,
@@ -34,7 +34,7 @@ console.log("PARSED:", parsed);
       message: "Shipment not found.",
     };
   }
-console.log("SHIPMENT FOUND:", shipment);
+
   const {
     status,
     currentLocation,
@@ -76,7 +76,7 @@ console.log("SHIPMENT FOUND:", shipment);
       description,
     },
   });
-console.log("TRACKING EVENT CREATED");
+
   // Activity log
   await prisma.activityLog.create({
     data: {
@@ -109,7 +109,7 @@ console.log("TRACKING EVENT CREATED");
   },
 });
 
-console.log("UPDATED SHIPMENT:", updatedShipment);
+
   return {
     success: true,
     message: "Shipment updated successfully.",

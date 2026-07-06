@@ -11,14 +11,9 @@ export async function updateShipmentStatusAction(
   location: string,
   description: string
 ) {
-  console.log("===== UPDATE ACTION =====");
+  
 
-  console.log({
-    shipmentId,
-    status,
-    location,
-    description,
-  });
+ 
 
   const result = await updateShipment(shipmentId, {
     status,
@@ -26,7 +21,7 @@ export async function updateShipmentStatusAction(
     description,
   });
 
-  console.log("RESULT:", result);
+ 
 
   if (!result.success) {
     return result;
