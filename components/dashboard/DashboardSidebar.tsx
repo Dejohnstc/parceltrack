@@ -81,7 +81,7 @@ export default function DashboardSidebar({
           <div>
 
             <h1 className="text-3xl font-bold text-orange-500">
-              ParcelTrack
+              ValidXpress
             </h1>
 
             <p className="text-sm text-slate-500">
@@ -142,7 +142,7 @@ export default function DashboardSidebar({
         <div className="border-t p-6">
 
           <p className="text-center text-sm text-slate-500">
-            ParcelTrack Admin
+            ValidXpress Admin
           </p>
 
         </div>

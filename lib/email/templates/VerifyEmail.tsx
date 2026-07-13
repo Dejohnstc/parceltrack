@@ -13,13 +13,13 @@ export default function VerifyEmail({
 }: VerifyEmailProps) {
   return (
     <EmailLayout
-      preview="Verify your ParcelTrack account"
+      preview="Verify your ValidXpress account"
       title="Verify Your Email"
     >
       <Text>Hello {name},</Text>
 
       <Text>
-        Welcome to ParcelTrack! Thank you for creating an account.
+        Welcome to ValidXprress! Thank you for creating an account.
       </Text>
 
       <Text>
@@ -49,7 +49,7 @@ export default function VerifyEmail({
       <Text>
         Thank you,
         <br />
-        <strong>ParcelTrack Team</strong>
+        <strong>ValidXpress Team</strong>
       </Text>
     </EmailLayout>
   );

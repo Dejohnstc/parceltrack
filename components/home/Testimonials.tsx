@@ -9,7 +9,7 @@ const testimonials = [
     name: "Michael Johnson",
     company: "Global Imports Ltd.",
     message:
-      "ParcelTrack has completely transformed the way we manage international shipments. The tracking is fast, accurate and reliable.",
+      "ValidXpress has completely transformed the way we manage international shipments. The tracking is fast, accurate and reliable.",
   },
   {
     name: "Sarah Williams",
@@ -21,7 +21,7 @@ const testimonials = [
     name: "David Brown",
     company: "Retail Distributor",
     message:
-      "We've shipped thousands of packages through ParcelTrack. The platform gives us complete visibility from pickup to delivery.",
+      "We've shipped thousands of packages through ValidXpress. The platform gives us complete visibility from pickup to delivery.",
   },
 ];
 
@@ -47,7 +47,7 @@ export default function Testimonials() {
           </h2>
 
           <p className="mt-8 text-xl leading-9 text-slate-600">
-            Businesses rely on ParcelTrack every day to move freight,
+            Businesses rely on ValidXpress every day to move freight,
             monitor deliveries and keep customers informed with
             real-time shipment visibility.
           </p>
@@ -127,7 +127,7 @@ export default function Testimonials() {
               <p className="mt-5 leading-8 text-slate-300">
                 Experience enterprise-grade shipment tracking,
                 automated notifications and complete logistics
-                visibility with ParcelTrack.
+                visibility with ValidXpress.
               </p>
 
             </div>

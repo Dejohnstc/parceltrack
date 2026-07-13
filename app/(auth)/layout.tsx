@@ -31,7 +31,7 @@ export default async function AuthLayout({
           <Package className="mb-8 h-20 w-20" />
 
           <h1 className="text-5xl font-bold">
-            ParcelTrack
+            ValidXpress
           </h1>
 
           <p className="mt-6 text-lg leading-8 text-orange-100">

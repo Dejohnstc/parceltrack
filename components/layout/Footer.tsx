@@ -55,7 +55,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-12 border-t border-slate-800 pt-6 text-center text-sm text-slate-500">
-          © {new Date().getFullYear()} ParcelTrack. All rights reserved.
+          © {new Date().getFullYear()} ValidXpress. All rights reserved.
         </div>
 
       </Container>

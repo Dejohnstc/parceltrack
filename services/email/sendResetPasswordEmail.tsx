@@ -13,7 +13,7 @@ export async function sendResetPasswordEmail(
   await sendMail({
     to: email,
 
-    subject: "Reset Your ParcelTrack Password",
+    subject: "Reset Your ValidXpress Password",
 
     react: (
       <ResetPasswordEmail

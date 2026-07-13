@@ -61,7 +61,7 @@ export default function ShipmentStatusEmail({
       </Button>
 
       <Text style={{ marginTop: "30px" }}>
-        Thank you for choosing ParcelTrack.
+        Thank you for choosing ValidXpress.
       </Text>
     </EmailLayout>
   );

@@ -13,11 +13,11 @@ export default async function SettingsPage() {
     settings =
       await prisma.companySettings.create({
         data: {
-          companyName: "ParcelTrack",
+          companyName: "ValidXpress",
           supportEmail:
-            "support@parceltrack.com",
+            "support@validxpress.com",
           supportPhone:
-            "+1 (000) 000-0000",
+            "+1 (207) 480-8970",
           primaryColor: "#f97316",
           logo: "",
         },

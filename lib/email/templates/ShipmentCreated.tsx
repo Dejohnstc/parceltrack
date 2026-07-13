@@ -68,7 +68,7 @@ export default function ShipmentCreatedEmail({
       </Text>
 
       <Text>
-        Thank you for choosing ParcelTrack.
+        Thank you for choosing ValidXpresss.
       </Text>
     </EmailLayout>
   );

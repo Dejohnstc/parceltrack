@@ -9,8 +9,8 @@ export default function ContactPage() {
       />
 
       <div className="mt-10 rounded-xl border bg-white p-8">
-        <p>Email: support@parceltrack.com</p>
-        <p>Phone: +1 (000) 000-0000</p>
+        <p>Email: support@validxpress.com</p>
+  
       </div>
     </main>
   );

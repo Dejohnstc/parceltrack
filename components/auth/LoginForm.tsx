@@ -66,7 +66,7 @@ export default function LoginForm() {
         </h2>
 
         <p className="mt-3 text-slate-500">
-          Login to your ParcelTrack account.
+          Login to your ValidXpress account.
         </p>
       </div>
 

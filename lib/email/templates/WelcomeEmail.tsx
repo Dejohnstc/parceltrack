@@ -19,7 +19,7 @@ export default function WelcomeEmail({
 }: WelcomeEmailProps) {
   return (
     <EmailLayout
-      preview="Welcome to ParcelTrack"
+      preview="Welcome to ValidXpress"
       title={`Welcome, ${name}!`}
       companyName={companyName}
       logo={logo}

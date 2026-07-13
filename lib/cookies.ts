@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 
-const COOKIE_NAME = "parceltrack_session";
+const COOKIE_NAME = "ValidXpress_session";
 
 export async function setSessionCookie(token: string) {
   const cookieStore = await cookies();

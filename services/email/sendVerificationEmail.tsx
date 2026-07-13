@@ -11,7 +11,7 @@ export async function sendVerificationEmail(
 
   await sendMail({
     to: email,
-    subject: "Verify Your ParcelTrack Account",
+    subject: "Verify Your ValidXpress Account",
     react: (
       <VerifyEmail
         name={name}

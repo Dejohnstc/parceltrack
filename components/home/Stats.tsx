@@ -35,7 +35,7 @@ const stats = [
     number: "98.9%",
     title: "Customer Satisfaction",
     description:
-      "Businesses and individuals trust ParcelTrack every single day.",
+      "Businesses and individuals trust ValidXpress every single day.",
   },
 ];
 

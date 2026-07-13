@@ -7,7 +7,7 @@ export default function RegisterPage() {
   return (
     <AuthCard
       title="Create Account"
-      description="Create your ParcelTrack account"
+      description="Create your ValidXpress account"
     >
       <RegisterForm />
 

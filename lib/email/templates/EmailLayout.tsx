@@ -25,9 +25,9 @@ export default function EmailLayout({
   preview,
   title,
   children,
-  companyName = "ParcelTrack",
+  companyName = "ValidXpress",
   logo,
-  supportEmail = "support@parceltrack.com",
+  supportEmail = "support@validxpress.com",
 }: EmailLayoutProps) {
   return (
     <Html>

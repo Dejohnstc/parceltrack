@@ -1,6 +1,6 @@
 {
-  "name": "ParcelTrack",
-  "short_name": "ParcelTrack",
+  "name": "ValidXpress",
+  "short_name": "ValidXpress",
   "description": "Enterprise shipment tracking platform",
   "start_url": "/",
   "display": "standalone",

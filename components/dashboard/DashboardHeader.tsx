@@ -40,7 +40,7 @@ export default function DashboardHeader({
         </button>
 
         <h1 className="text-lg font-bold text-orange-500">
-          ParcelTrack
+          ValidXpress
         </h1>
 
         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-500 font-bold text-white">

@@ -1,5 +1,5 @@
 export const SITE = {
-  name: "ParcelTrack",
+  name: "ValidXpress",
   description: "Professional parcel tracking and logistics platform.",
   url: "https://www.parceltrakker.com",
 

@@ -248,7 +248,7 @@ export default async function DashboardPage({
     </h3>
 
     <p className="mt-2 text-sm text-slate-500">
-      Configure ParcelTrack.
+      Configure ValidXpress.
     </p>
   </Link>
 

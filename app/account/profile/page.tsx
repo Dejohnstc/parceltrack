@@ -78,7 +78,7 @@ export default async function ProfilePage() {
 
 <p className="mt-4 max-w-xl text-orange-100">
   Manage your shipments, monitor delivery progress,
-  and securely access your ParcelTrakker account.
+  and securely access your ValidXpress account.
 </p>
 
 <div className="mt-6 flex flex-wrap gap-3">

@@ -38,7 +38,7 @@ export default function TrustedPartners() {
 
           <p className="mx-auto mt-8 max-w-3xl text-xl leading-9 text-slate-300">
 
-            ParcelTrack works alongside businesses,
+            ValidXpress works alongside businesses,
             logistics providers and enterprise partners
             around the world to deliver secure, reliable
             and intelligent shipping solutions.

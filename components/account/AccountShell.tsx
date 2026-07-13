@@ -115,7 +115,7 @@ export default function AccountShell({
         <div className="flex items-center justify-between border-b p-6">
           <div>
             <h1 className="text-2xl font-bold text-orange-500">
-              ParcelTrack
+              ValidXpress
             </h1>
 
             <p className="text-sm text-slate-500">
@@ -159,7 +159,7 @@ export default function AccountShell({
       <aside className="fixed hidden h-screen w-72 border-r bg-white lg:flex lg:flex-col">
         <div className="border-b p-8">
           <h1 className="text-3xl font-bold text-orange-500">
-            ParcelTrack
+            ValidXpress
           </h1>
 
           <p className="mt-2 text-slate-500">
@@ -204,7 +204,7 @@ export default function AccountShell({
           </button>
 
           <h2 className="text-lg font-bold">
-            ParcelTrack
+            ValidXpress
           </h2>
 
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-500 font-bold text-white">

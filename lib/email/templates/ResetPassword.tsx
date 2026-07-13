@@ -13,13 +13,13 @@ export default function ResetPasswordEmail({
 }: ResetPasswordEmailProps) {
   return (
     <EmailLayout
-      preview="Reset your ParcelTrack password"
+      preview="Reset your ValidXpress password"
       title="Reset Your Password"
     >
       <Text>Hello {name},</Text>
 
       <Text>
-        We received a request to reset your ParcelTrack
+        We received a request to reset your ValidXpress
         account password.
       </Text>
 

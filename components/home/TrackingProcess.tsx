@@ -150,7 +150,7 @@ export default function TrackingProcess() {
 
               <h3 className="text-4xl font-black">
 
-                Real-Time Tracking Powered By ParcelTrack
+                Real-Time Tracking Powered By ValidXpress
 
               </h3>
 

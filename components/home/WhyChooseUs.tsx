@@ -52,7 +52,7 @@ export default function WhyChooseUs() {
 
             <span className="inline-flex rounded-full bg-orange-100 px-5 py-2 text-sm font-semibold text-orange-600">
 
-              Why Businesses Choose ParcelTrack
+              Why Businesses Choose ValidXpress
 
             </span>
 

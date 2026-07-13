@@ -85,7 +85,7 @@ export default function Services() {
           <p className="mt-8 text-xl leading-9 text-slate-600">
 
             From express parcel delivery to international freight,
-            ParcelTrack provides enterprise logistics solutions with
+            ValidXpress provides enterprise logistics solutions with
             complete shipment visibility.
 
           </p>

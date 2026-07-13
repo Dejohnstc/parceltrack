@@ -18,8 +18,8 @@ export const metadata: Metadata = {
   ),
 
   title: {
-    default: "ParcelTrack | Global Shipment Tracking",
-    template: "%s | ParcelTrack",
+    default: "ValidXpress | Global Shipment Tracking",
+    template: "%s | ValidXpress",
   },
 
   description:
@@ -34,18 +34,18 @@ export const metadata: Metadata = {
     "Freight",
     "Cargo",
     "Tracking Number",
-    "ParcelTrack",
+    "ValidXpress",
   ],
 
   authors: [
     {
-      name: "ParcelTrack",
+      name: "ValidXpress",
     },
   ],
 
-  creator: "ParcelTrack",
+  creator: "ValidXpress",
 
-  publisher: "ParcelTrack",
+  publisher: "ValidXpress",
 
   robots: {
     index: true,
@@ -56,8 +56,8 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: process.env.APP_URL,
-    siteName: "ParcelTrack",
-    title: "ParcelTrack | Global Shipment Tracking",
+    siteName: "ValidXpress",
+    title: "ValidXpress | Global Shipment Tracking",
     description:
       "Enterprise shipment tracking platform with real-time logistics updates.",
     images: [
@@ -65,16 +65,16 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "ParcelTrack",
+        alt: "ValidXpress",
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "ParcelTrack",
+    title: "ValidXpress",
     description:
-      "Track shipments worldwide with ParcelTrack.",
+      "Track shipments worldwide with ValidXpress.",
     images: ["/og-image.png"],
   },
 
