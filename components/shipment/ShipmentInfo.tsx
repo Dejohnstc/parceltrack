@@ -130,16 +130,14 @@ export default function ShipmentInfo({
 
       </div>
 
-      <div className="mt-8 h-4 rounded-full bg-slate-200">
-
-        <div
-          className="h-4 rounded-full bg-white transition-all duration-700"
-          style={{
-            width: `${progressMap[shipment.status]}%`,
-          }}
-        />
-
-      </div>
+      <div className="mt-8 h-4 overflow-hidden rounded-full bg-green-100">
+  <div
+    className="h-full rounded-full bg-gradient-to-r from-green-500 via-green-600 to-emerald-600 transition-all duration-700"
+    style={{
+      width: `${progressMap[shipment.status]}%`,
+    }}
+  />
+</div>
 
      <p className="mt-6 text-base text-slate-600">
   Your shipment is currently{" "}
