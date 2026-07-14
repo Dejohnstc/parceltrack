@@ -130,9 +130,9 @@ export default function ShipmentInfo({
 
       </div>
 
-      <div className="mt-8 h-4 overflow-hidden rounded-full bg-green-100">
+     <div className="mt-8 h-4 overflow-hidden rounded-full bg-green-100">
   <div
-    className="h-full rounded-full bg-gradient-to-r from-green-500 via-green-600 to-emerald-600 transition-all duration-700"
+    className="h-full rounded-full bg-gradient-to-r from-green-500 via-green-600 to-emerald-600 shadow-[0_0_12px_rgba(34,197,94,0.45)] transition-all duration-700"
     style={{
       width: `${progressMap[shipment.status]}%`,
     }}
