@@ -118,21 +118,19 @@ export default function ShipmentInfo({
 
         <div>
 
-          <p className="text-orange-100">
-            Delivery Progress
-          </p>
+         <p className="text-sm font-medium uppercase tracking-wide text-slate-500">
+  Delivery Progress
+</p>
 
-        <h2>
-  <span className="text-6xl font-bold">
-    {progressMap[shipment.status]}%
-  </span>
+    <h2 className="mt-2 text-6xl font-bold text-slate-900">
+  {progressMap[shipment.status]}%
 </h2>
 
         </div>
 
       </div>
 
-      <div className="mt-8 h-4 rounded-full bg-white/20">
+      <div className="mt-8 h-4 rounded-full bg-slate-200">
 
         <div
           className="h-4 rounded-full bg-white transition-all duration-700"
@@ -143,14 +141,12 @@ export default function ShipmentInfo({
 
       </div>
 
-      <p className="mt-6 text-orange-100">
-        Your shipment is currently
-        <strong>
-          {" "}
-          {shipment.status.replaceAll("_", " ")}
-        </strong>
-        .
-      </p>
+     <p className="mt-6 text-base text-slate-600">
+  Your shipment is currently{" "}
+  <span className="font-bold text-orange-600">
+    {shipment.status.replaceAll("_", " ")}
+  </span>.
+</p>
 
     </div>
 
