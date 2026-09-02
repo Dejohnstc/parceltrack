@@ -12,10 +12,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl = "https://www.validxpress.net";
+
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.APP_URL ?? "https://parceltrack-git-main-dejohnstcs-projects.vercel.app/"
-  ),
+  metadataBase: new URL(siteUrl),
 
   title: {
     default: "ValidXpress | Global Shipment Tracking",
@@ -23,56 +23,75 @@ export const metadata: Metadata = {
   },
 
   description:
-    "Track shipments worldwide with real-time parcel tracking, secure logistics management and enterprise delivery solutions.",
+    "Track shipments worldwide with real-time shipment tracking, delivery updates, and secure logistics management with ValidXpress.",
 
   keywords: [
-    "Parcel Tracking",
-    "Shipment Tracking",
-    "Courier",
-    "Logistics",
-    "Delivery",
-    "Freight",
-    "Cargo",
-    "Tracking Number",
     "ValidXpress",
+    "shipment tracking",
+    "parcel tracking",
+    "package tracking",
+    "track shipment",
+    "track package",
+    "tracking number",
+    "courier tracking",
+    "delivery tracking",
+    "logistics",
+    "freight tracking",
+    "cargo tracking",
+    "global shipment tracking",
   ],
 
   authors: [
     {
       name: "ValidXpress",
+      url: siteUrl,
     },
   ],
 
   creator: "ValidXpress",
-
   publisher: "ValidXpress",
+
+  applicationName: "ValidXpress",
+
+  category: "logistics",
 
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+
+  alternates: {
+    canonical: siteUrl,
   },
 
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: process.env.APP_URL,
+    url: siteUrl,
     siteName: "ValidXpress",
     title: "ValidXpress | Global Shipment Tracking",
     description:
-      "Enterprise shipment tracking platform with real-time logistics updates.",
+      "Track shipments worldwide with ValidXpress. Get real-time tracking updates, delivery information, and shipment status from one secure platform.",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "ValidXpress",
+        alt: "ValidXpress Global Shipment Tracking",
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "ValidXpress",
+    title: "ValidXpress | Global Shipment Tracking",
     description:
       "Track shipments worldwide with ValidXpress.",
     images: ["/og-image.png"],
@@ -94,11 +113,13 @@ export default function RootLayout({
 }>) {
   return (
     <html
-  lang="en"
-  suppressHydrationWarning
-  className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
->
-      <body className="min-h-full flex flex-col">{children}</body>
+      lang="en"
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+    >
+      <body className="min-h-full flex flex-col">
+        {children}
+      </body>
     </html>
   );
 }

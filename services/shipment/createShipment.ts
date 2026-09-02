@@ -1,8 +1,12 @@
 import { prisma } from "@/lib/prisma";
 import { ShipmentStatus } from "@prisma/client";
+
 import { sendShipmentCreatedEmail } from "@/services/email/sendShipmentCreatedEmail";
 import { requireAdmin } from "@/lib/auth/require-admin";
+
 import { generateTrackingNumber } from "@/lib/tracking";
+import { generateReferenceNumber } from "@/lib/reference";
+
 import { shipmentSchema } from "@/lib/validations/shipment";
 
 export async function createShipment(data: unknown) {
@@ -52,7 +56,10 @@ export async function createShipment(data: unknown) {
     },
   });
 
-  // Generate a unique tracking number
+  /* -------------------------------------------------------------------------- */
+  /*                         Generate Tracking Number                           */
+  /* -------------------------------------------------------------------------- */
+
   let trackingNumber = generateTrackingNumber();
 
   while (
@@ -65,10 +72,31 @@ export async function createShipment(data: unknown) {
     trackingNumber = generateTrackingNumber();
   }
 
+  /* -------------------------------------------------------------------------- */
+  /*                        Generate Reference Number                           */
+  /* -------------------------------------------------------------------------- */
+
+  let referenceNumber = generateReferenceNumber();
+
+  while (
+    await prisma.shipment.findFirst({
+      where: {
+        referenceNumber,
+      },
+    })
+  ) {
+    referenceNumber = generateReferenceNumber();
+  }
+
+  /* -------------------------------------------------------------------------- */
+  /*                             Create Shipment                                */
+  /* -------------------------------------------------------------------------- */
+
   const shipment = await prisma.$transaction(async (tx) => {
     const createdShipment = await tx.shipment.create({
       data: {
         trackingNumber,
+        referenceNumber,
 
         customerId: customer?.id,
 
@@ -104,6 +132,10 @@ export async function createShipment(data: unknown) {
       },
     });
 
+    /* ------------------------------------------------------------------------ */
+    /*                          Initial Tracking Event                          */
+    /* ------------------------------------------------------------------------ */
+
     await tx.trackingEvent.create({
       data: {
         shipmentId: createdShipment.id,
@@ -113,25 +145,33 @@ export async function createShipment(data: unknown) {
       },
     });
 
+    /* ------------------------------------------------------------------------ */
+    /*                              Activity Log                                */
+    /* ------------------------------------------------------------------------ */
+
     await tx.activityLog.create({
       data: {
         shipmentId: createdShipment.id,
         action: "SHIPMENT_CREATED",
-        description: `Shipment ${trackingNumber} was created.`,
+        description: `Shipment ${trackingNumber} (${referenceNumber}) was created.`,
       },
     });
 
     return createdShipment;
   });
 
- await sendShipmentCreatedEmail({
-  email: receiverEmail,
-  name: receiverName,
-  trackingNumber: shipment.trackingNumber,
-  origin,
-  destination,
-  expectedDelivery,
-});
+  /* -------------------------------------------------------------------------- */
+  /*                               Send Email                                   */
+  /* -------------------------------------------------------------------------- */
+
+  await sendShipmentCreatedEmail({
+    email: receiverEmail,
+    name: receiverName,
+    trackingNumber: shipment.trackingNumber,
+    origin,
+    destination,
+    expectedDelivery,
+  });
 
   return {
     success: true,

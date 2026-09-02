@@ -88,6 +88,17 @@ customer   User?   @relation(fields: [customerId], references: [id])
   updatedAt          DateTime @updatedAt
 
   trackingEvents     TrackingEvent[]
+  referenceNumber String? @unique
+
+declaredValue Float?
+
+currency String? @default("USD")
+
+shippingCost Float?
+
+insurance Float?
+
+estimatedTransitDays Int?
 }
 model TrackingEvent {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId

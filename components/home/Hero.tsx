@@ -52,27 +52,21 @@ export default function Hero() {
 
             </div>
 
-            <h1 className="mt-8 text-5xl font-black leading-tight tracking-tight text-white lg:text-7xl">
+           <h1 className="mt-8 text-5xl font-black leading-tight tracking-tight text-white lg:text-7xl">
+  Global Shipment
 
-              Deliver With
+  <span className="block bg-gradient-to-r from-orange-400 via-orange-500 to-yellow-400 bg-clip-text text-transparent">
+    Tracking.
+  </span>
 
-              <span className="block bg-gradient-to-r from-orange-400 via-orange-500 to-yellow-400 bg-clip-text text-transparent">
+  Every Parcel. Every Update.
+</h1>
 
-                Confidence.
-
-              </span>
-
-              Track Every Parcel.
-
-            </h1>
-
-            <p className="mt-8 max-w-2xl text-xl leading-9 text-slate-300">
-
-              Enterprise-grade shipment tracking built for modern logistics.
-              Monitor every parcel in real time with secure global delivery,
-              instant status updates and intelligent shipment management.
-
-            </p>
+           <p className="mt-8 max-w-2xl text-xl leading-9 text-slate-300">
+  Track shipments worldwide with ValidXpress. Get real-time parcel
+  tracking, secure delivery updates, and reliable shipment visibility
+  from pickup to final delivery.
+</p>
 
             {/* Buttons */}
 
