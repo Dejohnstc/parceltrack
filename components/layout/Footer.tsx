@@ -132,10 +132,7 @@ export default function Footer() {
               delivered to your inbox.
             </p>
 
-            <form
-              onSubmit={(e) => e.preventDefault()}
-              className="space-y-3"
-            >
+          <form className="space-y-3">
               <input
                 type="email"
                 placeholder="Email address"
