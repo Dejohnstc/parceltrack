@@ -76,6 +76,17 @@ export const shipmentSchema = z.object({
 
   expectedDelivery: z.date().optional(),
 
+    /* -------------------------------------------------------------------------- */
+  /*                                  Payment                                   */
+  /* -------------------------------------------------------------------------- */
+
+  shippingCost: z.coerce
+    .number()
+    .positive("Shipping cost must be greater than 0."),
+
+  currency: z
+    .string()
+    .default("USD"),
   /* -------------------------------------------------------------------------- */
   /*                              Tracking Update                               */
   /* -------------------------------------------------------------------------- */

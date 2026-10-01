@@ -28,6 +28,20 @@ enum ShipmentStatus {
   RETURNED
 }
 
+enum ShipmentPaymentStatus {
+  UNPAID
+  PENDING
+  PAID
+  REJECTED
+  EXPIRED
+}
+
+enum PaymentMethod {
+  BANK_TRANSFER
+  CARD
+  CRYPTO
+}
+
 model User {
   id                   String   @id @default(auto()) @map("_id") @db.ObjectId
 
@@ -49,12 +63,17 @@ model User {
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
 }
+
 model Shipment {
   id                 String   @id @default(auto()) @map("_id") @db.ObjectId
-  customerId String? @db.ObjectId
-customer   User?   @relation(fields: [customerId], references: [id])
+
+  customerId         String?  @db.ObjectId
+  customer           User?    @relation(fields: [customerId], references: [id])
 
   trackingNumber     String   @unique
+
+  // Reference
+ referenceNumber String?
 
   // Sender
   senderName         String
@@ -80,26 +99,66 @@ customer   User?   @relation(fields: [customerId], references: [id])
   weight             Float?
   pieces             Int?
 
+  // Delivery
   expectedDelivery   DateTime?
+  estimatedTransitDays Int?
 
+  // Shipment status
   status             ShipmentStatus
 
+  // Shipment financial information
+  declaredValue      Float?
+  currency           String?  @default("USD")
+  shippingCost       Float?
+  insurance          Float?
+
+  // Payment
+  payment            ShipmentPayment?
+
+  // Tracking
+  trackingEvents     TrackingEvent[]
+
+  // Dates
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
-
-  trackingEvents     TrackingEvent[]
-  referenceNumber String? @unique
-
-declaredValue Float?
-
-currency String? @default("USD")
-
-shippingCost Float?
-
-insurance Float?
-
-estimatedTransitDays Int?
 }
+
+model ShipmentPayment {
+  id                String                @id @default(auto()) @map("_id") @db.ObjectId
+
+  shipmentId        String                @unique @db.ObjectId
+  shipment          Shipment              @relation(fields: [shipmentId], references: [id], onDelete: Cascade)
+
+  // Amount customer needs to pay
+  amount            Float
+  currency          String                @default("USD")
+
+  // Payment state
+  status            ShipmentPaymentStatus @default(UNPAID)
+
+  // Payment method selected by customer
+  paymentMethod     PaymentMethod?
+
+  // Crypto payment information
+  cryptoCurrency    String?
+  cryptoNetwork     String?
+  paymentAddress    String?
+
+  // Customer payment reference
+  transactionRef    String?
+
+  // Admin approval information
+  submittedAt       DateTime?
+  approvedAt        DateTime?
+  rejectedAt        DateTime?
+
+  approvedBy        String?               @db.ObjectId
+
+  // Dates
+  createdAt         DateTime              @default(now())
+  updatedAt         DateTime              @updatedAt
+}
+
 model TrackingEvent {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
 
@@ -127,17 +186,18 @@ model ActivityLog {
 
   createdAt   DateTime @default(now())
 }
+
 model CompanySettings {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
 
-  companyName String
-  supportEmail String
-  supportPhone String
+  companyName   String
+  supportEmail  String
+  supportPhone  String
 
-  logo String?
+  logo          String?
 
-  primaryColor String?
+  primaryColor  String?
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }

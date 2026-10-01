@@ -44,6 +44,10 @@ export async function createShipment(data: unknown) {
     pieces,
 
     expectedDelivery,
+
+    // Payment
+    shippingCost,
+    currency,
   } = parsed.data;
 
   // Link shipment to customer if they already have an account
@@ -89,7 +93,7 @@ export async function createShipment(data: unknown) {
   }
 
   /* -------------------------------------------------------------------------- */
-  /*                             Create Shipment                                */
+  /*                     Create Shipment + Payment                             */
   /* -------------------------------------------------------------------------- */
 
   const shipment = await prisma.$transaction(async (tx) => {
@@ -127,8 +131,25 @@ export async function createShipment(data: unknown) {
         // Delivery
         expectedDelivery,
 
+        // Payment amount stored on shipment
+        shippingCost,
+        currency,
+
         // Status
         status: ShipmentStatus.PENDING,
+
+        // Automatically create payment record
+        payment: {
+          create: {
+            amount: shippingCost,
+            currency,
+            status: "UNPAID",
+          },
+        },
+      },
+
+      include: {
+        payment: true,
       },
     });
 
@@ -154,6 +175,20 @@ export async function createShipment(data: unknown) {
         shipmentId: createdShipment.id,
         action: "SHIPMENT_CREATED",
         description: `Shipment ${trackingNumber} (${referenceNumber}) was created.`,
+      },
+    });
+
+    /* ------------------------------------------------------------------------ */
+    /*                         Payment Activity Log                             */
+    /* ------------------------------------------------------------------------ */
+
+    await tx.activityLog.create({
+      data: {
+        shipmentId: createdShipment.id,
+        action: "PAYMENT_CREATED",
+        description: `Shipping fee payment created for ${currency} ${shippingCost.toFixed(
+          2
+        )}. Payment status: UNPAID.`,
       },
     });
 
