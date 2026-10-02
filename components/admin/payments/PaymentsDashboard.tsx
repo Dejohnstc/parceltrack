@@ -5,7 +5,6 @@ import {
   CheckCircle2,
   Clock3,
   CreditCard,
-  ExternalLink,
   Loader2,
   RefreshCw,
   Search,
@@ -45,9 +44,8 @@ interface Payment {
 export default function PaymentsDashboard() {
   const [payments, setPayments] = useState<Payment[]>([]);
   const [loading, setLoading] = useState(true);
-  const [processingId, setProcessingId] = useState<string | null>(
-    null
-  );
+  const [processingId, setProcessingId] =
+    useState<string | null>(null);
 
   const [status, setStatus] = useState("PENDING");
   const [search, setSearch] = useState("");
@@ -86,14 +84,14 @@ export default function PaymentsDashboard() {
   }
 
   useEffect(() => {
-  const timer = window.setTimeout(() => {
-    loadPayments();
-  }, 0);
+    const timer = window.setTimeout(() => {
+      loadPayments();
+    }, 0);
 
-  return () => {
-    window.clearTimeout(timer);
-  };
-}, [status]);
+    return () => {
+      window.clearTimeout(timer);
+    };
+  }, [status]);
 
   async function handleAction(
     paymentId: string,
@@ -103,12 +101,16 @@ export default function PaymentsDashboard() {
 
     if (action === "reject") {
       reason =
-        window.prompt(
-          "Enter the reason for rejecting this payment:"
-        )?.trim() || "";
+        window
+          .prompt(
+            "Enter the reason for rejecting this payment:"
+          )
+          ?.trim() || "";
 
       if (!reason) {
-        toast.error("A rejection reason is required.");
+        toast.error(
+          "A rejection reason is required."
+        );
         return;
       }
     }
@@ -142,7 +144,8 @@ export default function PaymentsDashboard() {
 
       if (!response.ok || !data.success) {
         throw new Error(
-          data.message || "Unable to process payment."
+          data.message ||
+            "Unable to process payment."
         );
       }
 
@@ -162,24 +165,28 @@ export default function PaymentsDashboard() {
     }
   }
 
-  const filteredPayments = payments.filter((payment) => {
-    const query = search.toLowerCase();
+  const filteredPayments = payments.filter(
+    (payment) => {
+      const query = search.toLowerCase().trim();
 
-    return (
-      payment.shipment.trackingNumber
-        .toLowerCase()
-        .includes(query) ||
-      payment.shipment.receiverName
-        .toLowerCase()
-        .includes(query) ||
-      payment.shipment.receiverEmail
-        .toLowerCase()
-        .includes(query) ||
-      payment.shipment.referenceNumber
-        ?.toLowerCase()
-        .includes(query)
-    );
-  });
+      if (!query) return true;
+
+      return (
+        payment.shipment.trackingNumber
+          .toLowerCase()
+          .includes(query) ||
+        payment.shipment.receiverName
+          .toLowerCase()
+          .includes(query) ||
+        payment.shipment.receiverEmail
+          .toLowerCase()
+          .includes(query) ||
+        payment.shipment.referenceNumber
+          ?.toLowerCase()
+          .includes(query)
+      );
+    }
+  );
 
   return (
     <div className="mx-auto max-w-7xl space-y-6">
@@ -215,11 +222,12 @@ export default function PaymentsDashboard() {
               loading ? "animate-spin" : ""
             }`}
           />
+
           Refresh
         </button>
       </div>
 
-      {/* Status tabs */}
+      {/* Status Tabs */}
       <div className="flex flex-wrap gap-2">
         {[
           {
@@ -249,7 +257,9 @@ export default function PaymentsDashboard() {
             <button
               key={item.value}
               type="button"
-              onClick={() => setStatus(item.value)}
+              onClick={() =>
+                setStatus(item.value)
+              }
               className={`inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition ${
                 status === item.value
                   ? "bg-purple-600 text-white shadow-md"
@@ -269,7 +279,9 @@ export default function PaymentsDashboard() {
 
         <input
           value={search}
-          onChange={(event) => setSearch(event.target.value)}
+          onChange={(event) =>
+            setSearch(event.target.value)
+          }
           placeholder="Search tracking number, customer or reference..."
           className="h-12 w-full rounded-xl border border-slate-200 bg-white pl-12 pr-4 text-sm outline-none transition focus:border-purple-500 focus:ring-2 focus:ring-purple-100"
         />
@@ -293,15 +305,16 @@ export default function PaymentsDashboard() {
             </h3>
 
             <p className="mt-1 text-sm text-slate-500">
-              There are no {status.toLowerCase()} shipment
-              payments matching your search.
+              There are no{" "}
+              {status.toLowerCase()} shipment payments
+              matching your search.
             </p>
           </div>
         ) : (
           <>
-            {/* Desktop table */}
+            {/* Desktop Table */}
             <div className="hidden overflow-x-auto lg:block">
-              <table className="w-full">
+              <table className="w-full min-w-[1100px]">
                 <thead>
                   <tr className="border-b border-slate-200 bg-slate-50 text-left text-xs uppercase tracking-wide text-slate-500">
                     <th className="px-6 py-4">
@@ -328,8 +341,9 @@ export default function PaymentsDashboard() {
                       Status
                     </th>
 
+                    {/* Sticky Actions Header */}
                     {status === "PENDING" && (
-                      <th className="px-6 py-4 text-right">
+                      <th className="sticky right-0 z-30 w-[210px] min-w-[210px] border-l border-slate-200 bg-slate-50 px-6 py-4 text-right shadow-[-8px_0_15px_-10px_rgba(0,0,0,0.35)]">
                         Actions
                       </th>
                     )}
@@ -337,212 +351,279 @@ export default function PaymentsDashboard() {
                 </thead>
 
                 <tbody>
-                  {filteredPayments.map((payment) => (
-                    <tr
-                      key={payment.id}
-                      className="border-b border-slate-100 last:border-0"
-                    >
-                      <td className="px-6 py-5">
-                        <p className="font-semibold text-slate-900">
-                          {payment.shipment.trackingNumber}
-                        </p>
-
-                        {payment.shipment.referenceNumber && (
-                          <p className="mt-1 text-xs text-slate-500">
-                            {payment.shipment.referenceNumber}
-                          </p>
-                        )}
-                      </td>
-
-                      <td className="px-6 py-5">
-                        <p className="font-medium text-slate-900">
-                          {payment.shipment.receiverName}
-                        </p>
-
-                        <p className="mt-1 text-xs text-slate-500">
-                          {payment.shipment.receiverEmail}
-                        </p>
-                      </td>
-
-                      <td className="px-6 py-5">
-                        <p className="font-bold text-slate-900">
-                          {payment.currency}{" "}
-                          {payment.amount.toFixed(2)}
-                        </p>
-                      </td>
-
-                      <td className="px-6 py-5">
-                        {payment.paymentMethod ===
-                        "CRYPTO" ? (
-                          <div>
-                            <p className="font-semibold text-slate-900">
-                              {payment.cryptoCurrency}
-                            </p>
-
-                            <p className="text-xs text-slate-500">
-                              {payment.cryptoNetwork}
-                            </p>
-                          </div>
-                        ) : (
-                          <span className="text-sm text-slate-700">
-                            {payment.paymentMethod ||
-                              "—"}
-                          </span>
-                        )}
-                      </td>
-
-                      <td className="px-6 py-5 text-sm text-slate-600">
-                        {payment.submittedAt
-                          ? new Date(
-                              payment.submittedAt
-                            ).toLocaleString()
-                          : "—"}
-                      </td>
-
-                      <td className="px-6 py-5">
-                        <StatusBadge
-                          status={payment.status}
-                        />
-                      </td>
-
-                      {status === "PENDING" && (
+                  {filteredPayments.map(
+                    (payment) => (
+                      <tr
+                        key={payment.id}
+                        className="border-b border-slate-100 last:border-0"
+                      >
+                        {/* Shipment */}
                         <td className="px-6 py-5">
-                          <div className="flex justify-end gap-2">
-                            <button
-                              type="button"
-                              disabled={
-                                processingId ===
-                                payment.id
-                              }
-                              onClick={() =>
-                                handleAction(
-                                  payment.id,
-                                  "reject"
-                                )
-                              }
-                              className="inline-flex items-center gap-2 rounded-lg border border-red-200 px-3 py-2 text-xs font-bold text-red-600 transition hover:bg-red-50 disabled:opacity-50"
-                            >
-                              <XCircle className="h-4 w-4" />
-                              Reject
-                            </button>
+                          <p className="font-semibold text-slate-900">
+                            {
+                              payment.shipment
+                                .trackingNumber
+                            }
+                          </p>
 
-                            <button
-                              type="button"
-                              disabled={
-                                processingId ===
-                                payment.id
+                          {payment.shipment
+                            .referenceNumber && (
+                            <p className="mt-1 text-xs text-slate-500">
+                              {
+                                payment.shipment
+                                  .referenceNumber
                               }
-                              onClick={() =>
-                                handleAction(
-                                  payment.id,
-                                  "approve"
-                                )
-                              }
-                              className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-3 py-2 text-xs font-bold text-white transition hover:bg-green-700 disabled:opacity-50"
-                            >
-                              {processingId ===
-                              payment.id ? (
-                                <Loader2 className="h-4 w-4 animate-spin" />
-                              ) : (
-                                <CheckCircle2 className="h-4 w-4" />
-                              )}
-                              Approve
-                            </button>
-                          </div>
+                            </p>
+                          )}
                         </td>
-                      )}
-                    </tr>
-                  ))}
+
+                        {/* Customer */}
+                        <td className="px-6 py-5">
+                          <p className="font-medium text-slate-900">
+                            {
+                              payment.shipment
+                                .receiverName
+                            }
+                          </p>
+
+                          <p className="mt-1 text-xs text-slate-500">
+                            {
+                              payment.shipment
+                                .receiverEmail
+                            }
+                          </p>
+                        </td>
+
+                        {/* Amount */}
+                        <td className="px-6 py-5">
+                          <p className="font-bold text-slate-900">
+                            {payment.currency}{" "}
+                            {payment.amount.toFixed(
+                              2
+                            )}
+                          </p>
+                        </td>
+
+                        {/* Method */}
+                        <td className="px-6 py-5">
+                          {payment.paymentMethod ===
+                          "CRYPTO" ? (
+                            <div>
+                              <p className="font-semibold text-slate-900">
+                                {
+                                  payment.cryptoCurrency
+                                }
+                              </p>
+
+                              <p className="text-xs text-slate-500">
+                                {
+                                  payment.cryptoNetwork
+                                }
+                              </p>
+                            </div>
+                          ) : (
+                            <span className="text-sm text-slate-700">
+                              {payment.paymentMethod ||
+                                "—"}
+                            </span>
+                          )}
+                        </td>
+
+                        {/* Submitted */}
+                        <td className="px-6 py-5 text-sm text-slate-600">
+                          {payment.submittedAt
+                            ? new Date(
+                                payment.submittedAt
+                              ).toLocaleString()
+                            : "—"}
+                        </td>
+
+                        {/* Status */}
+                        <td className="px-6 py-5">
+                          <StatusBadge
+                            status={payment.status}
+                          />
+                        </td>
+
+                        {/* STICKY ACTIONS CELL */}
+                        {status === "PENDING" && (
+                          <td className="sticky right-0 z-20 w-[210px] min-w-[210px] border-l border-slate-200 bg-white px-6 py-5 shadow-[-8px_0_15px_-10px_rgba(0,0,0,0.35)]">
+                            <div className="flex justify-end gap-2">
+                              {/* Reject */}
+                              <button
+                                type="button"
+                                disabled={
+                                  processingId ===
+                                  payment.id
+                                }
+                                onClick={() =>
+                                  handleAction(
+                                    payment.id,
+                                    "reject"
+                                  )
+                                }
+                                className="inline-flex items-center gap-2 rounded-lg border border-red-200 bg-white px-3 py-2 text-xs font-bold text-red-600 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50"
+                              >
+                                <XCircle className="h-4 w-4" />
+
+                                Reject
+                              </button>
+
+                              {/* Approve */}
+                              <button
+                                type="button"
+                                disabled={
+                                  processingId ===
+                                  payment.id
+                                }
+                                onClick={() =>
+                                  handleAction(
+                                    payment.id,
+                                    "approve"
+                                  )
+                                }
+                                className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-3 py-2 text-xs font-bold text-white transition hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50"
+                              >
+                                {processingId ===
+                                payment.id ? (
+                                  <Loader2 className="h-4 w-4 animate-spin" />
+                                ) : (
+                                  <CheckCircle2 className="h-4 w-4" />
+                                )}
+
+                                Approve
+                              </button>
+                            </div>
+                          </td>
+                        )}
+                      </tr>
+                    )
+                  )}
                 </tbody>
               </table>
             </div>
 
-            {/* Mobile cards */}
+            {/* Mobile Cards */}
             <div className="divide-y divide-slate-100 lg:hidden">
-              {filteredPayments.map((payment) => (
-                <div
-                  key={payment.id}
-                  className="space-y-4 p-5"
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <p className="font-bold text-slate-900">
-                        {payment.shipment.trackingNumber}
-                      </p>
+              {filteredPayments.map(
+                (payment) => (
+                  <div
+                    key={payment.id}
+                    className="space-y-4 p-5"
+                  >
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <p className="font-bold text-slate-900">
+                          {
+                            payment.shipment
+                              .trackingNumber
+                          }
+                        </p>
 
-                      <p className="text-sm text-slate-500">
-                        {payment.shipment.receiverName}
-                      </p>
+                        <p className="text-sm text-slate-500">
+                          {
+                            payment.shipment
+                              .receiverName
+                          }
+                        </p>
+                      </div>
+
+                      <StatusBadge
+                        status={payment.status}
+                      />
                     </div>
 
-                    <StatusBadge
-                      status={payment.status}
-                    />
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <p className="text-xs text-slate-500">
+                          Amount
+                        </p>
+
+                        <p className="mt-1 font-bold">
+                          {payment.currency}{" "}
+                          {payment.amount.toFixed(
+                            2
+                          )}
+                        </p>
+                      </div>
+
+                      <div>
+                        <p className="text-xs text-slate-500">
+                          Method
+                        </p>
+
+                        <p className="mt-1 font-semibold">
+                          {payment.cryptoCurrency
+                            ? `${payment.cryptoCurrency} (${payment.cryptoNetwork})`
+                            : payment.paymentMethod ||
+                              "—"}
+                        </p>
+                      </div>
+                    </div>
+
+                    {payment.submittedAt && (
+                      <div>
+                        <p className="text-xs text-slate-500">
+                          Submitted
+                        </p>
+
+                        <p className="mt-1 text-sm text-slate-700">
+                          {new Date(
+                            payment.submittedAt
+                          ).toLocaleString()}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Mobile Actions */}
+                    {status === "PENDING" && (
+                      <div className="flex gap-2 pt-2">
+                        <button
+                          type="button"
+                          disabled={
+                            processingId ===
+                            payment.id
+                          }
+                          onClick={() =>
+                            handleAction(
+                              payment.id,
+                              "reject"
+                            )
+                          }
+                          className="flex-1 rounded-lg border border-red-200 px-3 py-2.5 text-sm font-bold text-red-600 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                          Reject
+                        </button>
+
+                        <button
+                          type="button"
+                          disabled={
+                            processingId ===
+                            payment.id
+                          }
+                          onClick={() =>
+                            handleAction(
+                              payment.id,
+                              "approve"
+                            )
+                          }
+                          className="flex-1 rounded-lg bg-green-600 px-3 py-2.5 text-sm font-bold text-white transition hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                          {processingId ===
+                          payment.id ? (
+                            <span className="flex items-center justify-center gap-2">
+                              <Loader2 className="h-4 w-4 animate-spin" />
+                              Processing...
+                            </span>
+                          ) : (
+                            "Approve"
+                          )}
+                        </button>
+                      </div>
+                    )}
                   </div>
-
-                  <div className="grid grid-cols-2 gap-4 text-sm">
-                    <div>
-                      <p className="text-xs text-slate-500">
-                        Amount
-                      </p>
-
-                      <p className="mt-1 font-bold">
-                        {payment.currency}{" "}
-                        {payment.amount.toFixed(2)}
-                      </p>
-                    </div>
-
-                    <div>
-                      <p className="text-xs text-slate-500">
-                        Method
-                      </p>
-
-                      <p className="mt-1 font-semibold">
-                        {payment.cryptoCurrency
-                          ? `${payment.cryptoCurrency} (${payment.cryptoNetwork})`
-                          : payment.paymentMethod ||
-                            "—"}
-                      </p>
-                    </div>
-                  </div>
-
-                  {status === "PENDING" && (
-                    <div className="flex gap-2">
-                      <button
-                        type="button"
-                        disabled={
-                          processingId === payment.id
-                        }
-                        onClick={() =>
-                          handleAction(
-                            payment.id,
-                            "reject"
-                          )
-                        }
-                        className="flex-1 rounded-lg border border-red-200 px-3 py-2 text-sm font-bold text-red-600"
-                      >
-                        Reject
-                      </button>
-
-                      <button
-                        type="button"
-                        disabled={
-                          processingId === payment.id
-                        }
-                        onClick={() =>
-                          handleAction(
-                            payment.id,
-                            "approve"
-                          )
-                        }
-                        className="flex-1 rounded-lg bg-green-600 px-3 py-2 text-sm font-bold text-white"
-                      >
-                        Approve
-                      </button>
-                    </div>
-                  )}
-                </div>
-              ))}
+                )
+              )}
             </div>
           </>
         )}
@@ -551,7 +632,11 @@ export default function PaymentsDashboard() {
   );
 }
 
-function StatusBadge({ status }: { status: string }) {
+function StatusBadge({
+  status,
+}: {
+  status: string;
+}) {
   if (status === "PAID") {
     return (
       <span className="inline-flex items-center gap-1.5 rounded-full bg-green-100 px-3 py-1 text-xs font-bold text-green-700">
