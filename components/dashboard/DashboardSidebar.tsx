@@ -8,6 +8,7 @@ import {
   Package,
   Users,
   BarChart3,
+  CreditCard,
   Settings,
 } from "lucide-react";
 
@@ -28,6 +29,11 @@ const links = [
     title: "Shipments",
     href: "/dashboard/shipments",
     icon: Package,
+  },
+  {
+    title: "Payments",
+    href: "/dashboard/payments",
+    icon: CreditCard,
   },
   {
     title: "Customers",
@@ -55,18 +61,14 @@ export default function DashboardSidebar({
   return (
     <>
       {/* Mobile Overlay */}
-
       {sidebarOpen && (
         <div
-          onClick={() =>
-            setSidebarOpen(false)
-          }
+          onClick={() => setSidebarOpen(false)}
           className="fixed inset-0 z-40 bg-black/50 lg:hidden"
         />
       )}
 
       {/* Sidebar */}
-
       <aside
         className={`fixed left-0 top-0 z-50 flex h-screen w-72 flex-col border-r bg-white shadow-2xl transition-transform duration-300 lg:translate-x-0 ${
           sidebarOpen
@@ -75,11 +77,8 @@ export default function DashboardSidebar({
         }`}
       >
         {/* Header */}
-
         <div className="flex items-center justify-between border-b p-6">
-
           <div>
-
             <h1 className="text-3xl font-bold text-orange-500">
               ValidXpress
             </h1>
@@ -87,33 +86,26 @@ export default function DashboardSidebar({
             <p className="text-sm text-slate-500">
               Admin Panel
             </p>
-
           </div>
 
           <button
-            onClick={() =>
-              setSidebarOpen(false)
-            }
+            type="button"
+            onClick={() => setSidebarOpen(false)}
             className="rounded-xl p-2 hover:bg-slate-100 lg:hidden"
           >
             <X size={22} />
           </button>
-
         </div>
 
         {/* Navigation */}
-
         <nav className="flex-1 space-y-2 p-5">
-
           {links.map((link) => {
             const Icon = link.icon;
 
             const active =
               pathname === link.href ||
               (link.href !== "/dashboard" &&
-                pathname.startsWith(
-                  link.href
-                ));
+                pathname.startsWith(link.href));
 
             return (
               <Link
@@ -129,22 +121,17 @@ export default function DashboardSidebar({
                 }`}
               >
                 <Icon size={20} />
-
                 {link.title}
               </Link>
             );
           })}
-
         </nav>
 
         {/* Footer */}
-
         <div className="border-t p-6">
-
           <p className="text-center text-sm text-slate-500">
             ValidXpress Admin
           </p>
-
         </div>
       </aside>
     </>
